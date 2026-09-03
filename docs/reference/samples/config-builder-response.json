@@ -1,0 +1,24 @@
+{
+  "endpoint": "GET /api/now/aix/config/builder",
+  "headers": {
+    "Accept": "multipart/mixed",
+    "X-UserToken": "<g_ck>"
+  },
+  "experienceData": {
+    "urlSuffix": "builder",
+    "sysId": "ae39471d0308af6773e916898961feaf",
+    "appShell": "56f0115ee2829a88547a1061bd5524a8",
+    "theme": "51e3b1dd4b23fd207001ab256415dd3c",
+    "title": "SN AIUX Builder",
+    "landingPath": "/home",
+    "applicationContextTableName": "sys_aix_experience",
+    "applicationContextName": "SN AIUX Builder"
+  },
+  "notes": [
+    "Default $ai_experience.do still injects window.NOW.portal_url_suffix = 'aiuxsp' (the SP shell record).",
+    "The AIUX experience itself lives in sys_aix_experience with url_suffix = 'builder'.",
+    "Routed URL pattern (from index-D24AXy2E.js): /${vHostSiteName}/${experience}${pagePath} -> /aiux/builder/<page>.",
+    "landingPath is /home but no sys_aix_page with that path_pattern exists for the Builder app -> 404 (Breakout game).",
+    "Working entry: /aiux/builder/widgets (sys_aix_page 'Widgets', path_pattern '/widgets', role aix_widget_admin)."
+  ]
+}

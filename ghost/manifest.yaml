@@ -1,0 +1,122 @@
+# Maps docs/ pages to the Ghost "aiux-docs" collection.
+#
+# The Ghost site routes /aiux-docs/{slug}/ to posts tagged #docs + #aiux-docs
+# (see routes.yaml on the Ghost instance). Each entry here is one post.
+#
+#   file:    path relative to docs/
+#   slug:    Ghost post slug -> https://relay.semaphorepartners.com/aiux-docs/<slug>/
+#   title:   Ghost post title (defaults to the page's H1)
+#   section: sidebar group
+#   order:   sort within the section
+#   status:  published | draft | unpublished  (state on the Ghost site as of 2026-09-03)
+#
+# Internal links in docs/ are relative paths. When publishing, rewrite
+# `<relative path to file>[#anchor]` -> `/aiux-docs/<slug>/[#anchor]` using
+# this table, and upload assets/screenshots/* to Ghost, rewriting image paths.
+
+site: https://relay.semaphorepartners.com
+collection: /aiux-docs/
+tags: ["#docs", "#aiux-docs"]
+
+pages:
+  - file: introduction.md
+    slug: ""                     # the collection index page
+    title: Unofficial AI UX & Employee Slate Docs
+    section: Introduction
+    order: 0
+    status: published
+
+  - file: getting-started/installing.md
+    slug: installing
+    section: Getting Started
+    order: 10
+    status: published
+  - file: getting-started/your-first-widget.md
+    slug: your-first-widget
+    section: Getting Started
+    order: 20
+    status: published
+
+  - file: widgets/component.md
+    slug: component
+    section: Widgets
+    order: 10
+    status: published
+  - file: widgets/lit.md
+    slug: lit
+    section: Widgets
+    order: 20
+    status: published
+  - file: widgets/daisy.md
+    slug: daisy
+    section: Widgets
+    order: 30
+    status: published
+  - file: widgets/server-script.md
+    slug: server-script
+    section: Widgets
+    order: 40
+    status: published
+  - file: widgets/service-portal-bridge.md
+    slug: service-portal-bridge
+    section: Widgets
+    order: 50
+    status: published
+  - file: widgets/ai-integration.md
+    slug: ai-integration
+    section: Widgets
+    order: 60
+    status: published
+  - file: widgets/example-impersonation.md
+    slug: example-impersonation
+    title: "Worked example: Impersonation widget"
+    section: Widgets
+    order: 70
+    status: unpublished
+
+  - file: experiences/overview.md
+    slug: experiences-overview   # already referenced by published pages
+    title: Experiences overview
+    section: Experiences
+    order: 10
+    status: unpublished
+  - file: experiences/pages-and-routing.md
+    slug: pages-and-routing      # already referenced by published pages
+    section: Experiences
+    order: 20
+    status: unpublished
+  - file: experiences/app-shells-and-themes.md
+    slug: app-shells-and-themes
+    section: Experiences
+    order: 30
+    status: unpublished
+  - file: experiences/url-rewrites.md
+    slug: url-rewrites
+    section: Experiences
+    order: 40
+    status: unpublished
+
+  - file: reference/architecture.md
+    slug: architecture
+    title: Architecture diagrams
+    section: Reference
+    order: 10
+    status: unpublished
+  - file: reference/tables.md
+    slug: tables
+    title: sys_aix_* tables
+    section: Reference
+    order: 20
+    status: unpublished
+  - file: reference/intellisense.md
+    slug: intellisense           # already referenced by published pages
+    title: Intellisense dump
+    section: Reference
+    order: 30
+    status: unpublished
+  - file: reference/bundles.md
+    slug: bundles
+    title: Bundle anatomy
+    section: Reference
+    order: 40
+    status: unpublished
