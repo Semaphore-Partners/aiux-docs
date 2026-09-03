@@ -1,18 +1,18 @@
-# Maps docs/ pages to the Ghost "aiux-docs" collection.
+# Maps docs/ pages to the Ghost "aiux-docs" collection at
+# https://relay.semaphorepartners.com/aiux-docs/
 #
-# The Ghost site routes /aiux-docs/{slug}/ to posts tagged #docs + #aiux-docs
-# (see routes.yaml on the Ghost instance). Each entry here is one post.
+# This file is the contract between the docs and whatever publishes them.
+# Publishing itself happens outside this repo.
 #
 #   file:    path relative to docs/
-#   slug:    Ghost post slug -> https://relay.semaphorepartners.com/aiux-docs/<slug>/
-#   title:   Ghost post title (defaults to the page's H1)
-#   section: sidebar group
+#   slug:    Ghost slug -> /aiux-docs/<slug>/
+#   title:   Ghost title (defaults to the page's H1)
+#   section: sidebar group; published as the post's public tag
 #   order:   sort within the section
-#   status:  published | draft | unpublished  (state on the Ghost site as of 2026-09-03)
+#   status:  desired state on the site — published | draft | skip
+#   type:    "page" for the collection index (a Ghost page, not a post)
 #
-# Internal links in docs/ are relative paths. When publishing, rewrite
-# `<relative path to file>[#anchor]` -> `/aiux-docs/<slug>/[#anchor]` using
-# this table, and upload assets/screenshots/* to Ghost, rewriting image paths.
+# Links between docs are relative; the publisher rewrites them using this table.
 
 site: https://relay.semaphorepartners.com
 collection: /aiux-docs/
@@ -20,7 +20,8 @@ tags: ["#docs", "#aiux-docs"]
 
 pages:
   - file: introduction.md
-    slug: ""                     # the collection index page
+    slug: aiux-docs
+    type: page
     title: Unofficial AI UX & Employee Slate Docs
     section: Introduction
     order: 0
@@ -72,51 +73,51 @@ pages:
     title: "Worked example: Impersonation widget"
     section: Widgets
     order: 70
-    status: unpublished
+    status: draft
 
   - file: experiences/overview.md
-    slug: experiences-overview   # already referenced by published pages
+    slug: experiences-overview   # already linked from published pages
     title: Experiences overview
     section: Experiences
     order: 10
-    status: unpublished
+    status: draft
   - file: experiences/pages-and-routing.md
-    slug: pages-and-routing      # already referenced by published pages
+    slug: pages-and-routing      # already linked from published pages
     section: Experiences
     order: 20
-    status: unpublished
+    status: draft
   - file: experiences/app-shells-and-themes.md
     slug: app-shells-and-themes
     section: Experiences
     order: 30
-    status: unpublished
+    status: draft
   - file: experiences/url-rewrites.md
     slug: url-rewrites
     section: Experiences
     order: 40
-    status: unpublished
+    status: draft
 
   - file: reference/architecture.md
     slug: architecture
     title: Architecture diagrams
     section: Reference
     order: 10
-    status: unpublished
+    status: draft
   - file: reference/tables.md
     slug: tables
     title: sys_aix_* tables
     section: Reference
     order: 20
-    status: unpublished
+    status: draft
   - file: reference/intellisense.md
-    slug: intellisense           # already referenced by published pages
+    slug: intellisense           # already linked from published pages
     title: Intellisense dump
     section: Reference
     order: 30
-    status: unpublished
+    status: draft
   - file: reference/bundles.md
     slug: bundles
     title: Bundle anatomy
     section: Reference
     order: 40
-    status: unpublished
+    status: draft
