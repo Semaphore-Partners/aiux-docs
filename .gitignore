@@ -15,3 +15,6 @@ node_modules/
 /scratch/
 .env
 .env.*
+
+# API reference generator cache (downloaded tarballs)
+tools/api-reference/.cache/

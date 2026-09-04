@@ -140,6 +140,12 @@ pages:
     section: Reference
     order: 30
     status: draft
+  - file: reference/api/README.md
+    slug: api-reference
+    title: API reference
+    section: Reference
+    order: 34
+    status: draft
   - file: reference/npm-package.md
     slug: npm-package
     title: The @servicenow/aiux package

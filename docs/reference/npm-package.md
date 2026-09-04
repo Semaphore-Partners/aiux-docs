@@ -96,4 +96,4 @@ jq '.elements[] | {tag, events}' components/list/public-api-manifest.json
 grep -rhoE "customElement\('[a-z0-9-]+'" components | sort -u
 ```
 
-Contributions that turn the manifests into per-component reference pages are welcome. See [CONTRIBUTING](../../CONTRIBUTING.md). Quote the package's type definitions and manifests freely; they are ISC-licensed and published for exactly this purpose. Do not vendor the source tree into this repo.
+The manifests are rendered as the [API reference](api/README.md), one page per package, regenerated per version by `tools/api-reference/generate.mjs`. See [CONTRIBUTING](../../CONTRIBUTING.md). Quote the package's type definitions and manifests freely; they are ISC-licensed and published for exactly this purpose. Do not vendor the source tree into this repo.

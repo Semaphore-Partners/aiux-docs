@@ -25,6 +25,10 @@ Thanks for helping document a framework that shipped without a manual. The bar i
 - Code blocks are tagged (`js`, `json`, `css`, `mermaid`).
 - Wrap at whatever your editor does; no hard line-length rule.
 
+## Generated pages
+
+`docs/reference/api/` is generated from the public `@servicenow/aiux` npm package by `tools/api-reference/generate.mjs`. Don't edit those pages by hand; the next regeneration would overwrite the change. Fix the generator instead, or bump the version. See [tools/api-reference/README.md](tools/api-reference/README.md).
+
 ## Adding a page
 
 1. Create the file under the right section in `docs/`.
