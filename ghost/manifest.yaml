@@ -140,6 +140,12 @@ pages:
     section: Reference
     order: 30
     status: draft
+  - file: reference/npm-package.md
+    slug: npm-package
+    title: The @servicenow/aiux package
+    section: Reference
+    order: 35
+    status: draft
   - file: reference/bundles.md
     slug: bundles
     title: Bundle anatomy

@@ -43,7 +43,19 @@ Three things to notice:
 - **Default export plus `@customElement`, both required.** Same rule as widgets.
 - **`display: contents`** makes the page's host box vanish from layout, so its children participate in the parent's grid directly. Custom elements default to `display: inline`, which breaks layout in surprising ways, so every component sets a `:host` display. By convention `static styles` is reserved for `:host` alone and everything else is Tailwind classes in the template.
 
-The page becomes a `sys_aix_page` row carrying `path_pattern`, `roles`, `order`, and `hide_chat`, plus a page-widget `sys_aix_widget` row. Access control is a column on the page record, not something you do in JavaScript.
+The page becomes a `sys_aix_page` row plus a page-widget `sys_aix_widget` row. Defaults written by the build: `title` = the tag name, `path_pattern` = the route, `hide_chat: false`, `order: 100`, `roles` empty. Access control is a column on the page record, not something you do in JavaScript, and you set it with decorators:
+
+```js
+@customElement('x-acme-myapp-admin-page')
+@roles(['admin', 'x_acme_myapp.editor'])   // → sys_aix_page.roles
+@protectionPolicy('read')                  // → sys_policy on page and page-widget
+@title('Administration')
+export default class AdminPage extends AIUXElement { … }
+```
+
+`@global(false)` couples a page to the experience instead of leaving it global, and requires a `basename` in `aiux.json`. Full decorator table in [Widgets & decorators](widgets-and-decorators.md#the-full-set).
+
+A page can also read `this.isEmbedded` to tell whether it is rendered inside a `<route-view>` (a side panel, for instance) and simplify itself accordingly. It is always `false` during SSR.
 
 ## Loaders: the hook AIUX adds to Lit
 
@@ -59,7 +71,18 @@ render() {
 }
 ```
 
-It is `static` because it runs before any instance exists. `ctx` carries route params, query string, hostname, CSRF token, and session cookie.
+It is `static` because it runs before any instance exists. `ctx` has the same shape on the server and the client:
+
+| `ctx.` | Contents |
+|---|---|
+| `params` | Route params from the matched URL, e.g. `{ table: 'incident' }` |
+| `query` | Query-string params, with the framework's internal params filtered out |
+| `pagePath` | The route pattern, e.g. `/list/:table` |
+| `basePath` | The app's URL prefix, e.g. `/aiux/<basename>` |
+| `protocol`, `hostname` | From the request (server) or `window.location` (client) |
+| `headers.cookie` | The user's session cookie on the server; empty on the client, where the browser sends it |
+| `csrfToken` | The `g_ck` token for authenticated calls |
+| `embedded` | `true` when the page is rendered inside a `<route-view>`, such as a side panel |
 
 Two habits that follow:
 

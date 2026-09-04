@@ -11,9 +11,32 @@ A decorator is the `@something(...)` line directly above a class or field. It ru
 | Decorator | From | What it does |
 |---|---|---|
 | `@customElement`, `@property`, `@state` | Lit (`lit/decorators.js`) | Change runtime behaviour: register the tag, declare reactive properties. |
-| `@name`, `@description`, `@bestFor`, `@server`, `@discoverable` | AIUX (`decorators` in `aiux-components-core`) | Record **metadata that the build harvests into columns**. |
+| `@name`, `@bestFor`, `@server`, … | AIUX (`decorators` in `aiux-components-core`) | Record **metadata that the build harvests into columns**. |
 
-The Lit ones are the same as in any Lit project. The AIUX ones are the point of this page.
+The AIUX decorators are **no-ops at runtime**. Each is literally `(...args) => cls => cls`. The build extracts their arguments by parsing your source as an AST, which has one practical consequence: **arguments must be literals.** `@bestFor(SOME_CONSTANT)` or `@roles(computeRoles())` will compile and do nothing.
+
+### The full set
+
+Fifteen decorators ship in `@servicenow/aiux` 22.42.3, grouped by what they decorate.
+
+| Decorator | Applies to | Becomes | Notes |
+|---|---|---|---|
+| `@name('...')` | widget | `sys_aix_widget.name` | Display name in the Builder catalog |
+| `@description('...')` | widget | `description` | |
+| `@bestFor('...')` | widget | `best_for` | The text an agent reads when deciding to place the widget. Defaults to `''`. |
+| `@server('./server-script.js')` | widget | `script` | Path resolved relative to the widget file; compiled to the IIFE. Build error if the file doesn't exist. |
+| `@discoverable(true)` | widget | drives `category` | See below |
+| `@category('...')` | widget | `category` | Only honoured when `@discoverable(true)` and the value is valid; otherwise `custom` |
+| `@chatCompatible(true)` | widget | `chat_compatible` | May render inside the chat surface |
+| `@interactiveViewCompatible(true)` | widget | `interactive_view_compatible` | May render in the interactive view |
+| `@demo(true)` | widget | `demo_install` | Install demo data |
+| `@explicitSysId('...')` | widget, page | `sys_id` | Pin the record's sys_id across installs |
+| `@roles(['...'])` | page | `sys_aix_page.roles` | One `@roles` drives the page gate and, for extension apps, the `sys_aix_page_route_map.roles` row gate |
+| `@protectionPolicy('...')` | page | `sys_policy` on the page **and** its page-widget | e.g. `read` / `protected` |
+| `@global(false)` | page | couples the page to the experience | Requires a `basename` in `aiux.json`; the default is global |
+| `@title('...')`, `@subtitle('...')` | page, dashboard | page title fields | Default title is the tag name |
+
+The orientation material this section started from knew about five of these. The table above is read from the package's own type definitions and metadata generator.
 
 ## What you write
 
@@ -74,16 +97,21 @@ dist-metadata/aiux-json/sys_aix_widget_aiux-widget_aiux-hello-world.json
 
 Real columns on a real table. `@bestFor` is not a code comment. It is the text a model reads when deciding whether to place your widget on a page or in a chat surface. Write it like a product description aimed at an AI, because that is what it is. The conventions on the [AI Integration](../widgets/ai-integration.md) page apply verbatim.
 
-## The four things that make a file a widget
+## What makes a file a widget
 
-A file is treated as an AIUX widget only when it has **all four**:
+The build walks `widgets/**` looking for a class that extends `AIUXWidgetElement` **or** `AIUXElement`. For each one it finds:
 
-1. A `default export` extending `AIUXWidgetElement`
-2. `@customElement('...')`
-3. `@discoverable(true)`
-4. `@bestFor('...')`
+| Condition | If missing |
+|---|---|
+| Class is the file's `default export` | **Build error**: "widget class must be default exported" |
+| `@customElement('tag-name')` present | **Build error**: "widget is missing @customElement" |
+| Tag is lowercase and hyphenated (`[a-z][a-z0-9]*(-[a-z0-9]+)+`) | **Build error** |
+| `@discoverable(true)` | Record is created with `category: 'internal'`, so it exists but is hidden from the Builder catalog and from AI placement |
+| `@bestFor('...')` | `best_for` is empty; the widget is discoverable but agents have nothing to match on |
 
-Miss one and it silently isn't a widget. No error, no record, nothing in the Builder catalog.
+So the rule of thumb "default export + `@customElement` + `@discoverable(true)` + `@bestFor`" is right for *a widget people can find*. Two of the four are hard errors, two degrade silently.
+
+A widget does **not** need a server script. `@server` is optional, and a widget extending plain `AIUXElement` with no `@server` is a legitimate presentational widget.
 
 ## Base classes replace `LitElement`
 

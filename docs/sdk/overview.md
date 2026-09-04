@@ -2,7 +2,7 @@
 
 Everything under **Widgets** and **Experiences** describes the *Builder* path: you open `/aiux/builder/widgets`, create a `sys_aix_widget` record, and type Lit into its `component` field. There is a second path, and it is the one a delivery team will actually use: a local repository, built with the ServiceNow SDK, that **compiles into `sys_aix_*` records**.
 
-> **Version note.** This section was written against `@servicenow/aiux` 22.42.3 and `@servicenow/sdk` 4.11.0 (August 2026), with `lit` ^3.2. That is later than the Zurich P9 bundle analysis the rest of these docs are based on. Where the two disagree, assume the SDK path is newer and verify on your instance.
+> **Version note.** This section was written against `@servicenow/aiux` 22.42.3 and `@servicenow/sdk` 4.11.x (August 2026), with `lit` ^3.2. Both are **public npm packages**; see [Reference → The @servicenow/aiux package](../reference/npm-package.md). That is later than the Zurich P9 bundle analysis the rest of these docs are based on. Where the two disagree, assume the SDK path is newer and verify on your instance.
 
 ## The one idea to hold onto
 
@@ -77,6 +77,42 @@ Read off `dist-metadata/aiux-json/` after a build. This is the mapping to memori
 | `tailwind.app.css`, `head.app.css` | `sys_aix_experience_properties` | Stylesheets travel as experience properties, not static files. |
 
 "Every page is also a widget" is the sentence that makes the schema in [Reference → Tables](../reference/tables.md) stop looking arbitrary. It is why routes carry `roles` and `order`, why decorators are mandatory, why deploying is `install` rather than a file copy, and why the platform's AI can find your widget at all.
+
+## Starting a project
+
+Two templates ship in the public `@servicenow/aiux-app-templates` package and are what the SDK's `init` scaffolds from:
+
+| Template | What it is |
+|---|---|
+| `default` | Full starter: two pages (`/home`, `/incidents`), a layout, a hello-world widget with a server script, theme, Tailwind, eslint config |
+| `aiux-extension` | An **extension app** that overlays pages onto an existing host experience. This is what `sys_aix_page_route_map` is for. |
+
+The generated `aiux.json`:
+
+```json
+{
+  "name": "my-experience",
+  "basename": "my_experience",
+  "landing": "/home",
+  "development": { "token": "" },
+  "build": { "exclude": ["**/*.test.js", "**/test/**"] }
+}
+```
+
+Other keys the build reads: `systemPropertyAllowlist` (opt in to an allowlist of `gs.getProperty` names the app may read), `build.metadataOutputDir` (default `dist-metadata/aiux-json`), and `fileBased` (serve from local `dist/` and emit no records; defaults to `true` when no scope is set). The application scope itself comes from `now.config.json`, the standard ServiceNow SDK file.
+
+The template's `package.json` scripts are the whole command surface:
+
+```json
+{
+  "dev":    "now-sdk run dev",
+  "build":  "now-sdk build",
+  "deploy": "now-sdk install",
+  "deploy:reinstall": "now-sdk install --reinstall",
+  "doctor": "aiux doctor",
+  "lint":   "eslint ."
+}
+```
 
 ## Project layout
 

@@ -38,6 +38,7 @@ ServiceNow has not published architecture docs, an API reference, or a migration
   - [Architecture diagrams](docs/reference/architecture.md) — mounting hierarchy, data model, page-load sequence, widget interaction model
   - [Tables](docs/reference/tables.md) — the 29 `sys_aix_*` tables grouped by purpose
   - [Intellisense dump](docs/reference/intellisense.md) — the full API surface the Builder's autocomplete knows about
+  - [The @servicenow/aiux package](docs/reference/npm-package.md) — the public npm package: export map, component packages, type definitions and API manifests to build a reference from
   - [Bundle anatomy](docs/reference/bundles.md) — what's on the wire under `/sncapps/aix/assets/` and where it comes from
   - [Sample: `/api/now/aix/config/builder` response](docs/reference/samples/config-builder-response.json)
 

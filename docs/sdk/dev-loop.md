@@ -11,9 +11,11 @@ Running, building, linting, and deploying an SDK project.
 | `pnpm dev` | Local SSR dev server with HMR on `:3000`; the instance provides auth and data |
 | `pnpm build` | Rollup → `dist/` bundles + `dist-metadata/` record JSON |
 | `pnpm lint` | eslint with the five AIUX plugins: `style`, `app`, `a11y`, `i18n`, `ssr` |
-| `pnpm deploy` | `now-sdk install --auth <alias>`; pushes the records to the instance |
+| `pnpm deploy` | `now-sdk install`; pushes the records to the instance |
+| `pnpm deploy:reinstall` | `now-sdk install --reinstall` |
+| `pnpm doctor` | `aiux doctor`: checks toolchain, project shape, `package.json`, eslint config, template coherence, and agent setup |
 
-Templates typically also define a combined build-and-install script. Check `package.json`.
+`now-sdk run dev` is the sole entry point for the dev server; it resolves `@servicenow/aiux/aiux-sdk/serve` from whatever version of the package is installed in the project.
 
 ## `pnpm dev` is local, not a proxy to a deployed app
 
@@ -26,7 +28,10 @@ The dev server compiles your working tree and server-renders it locally. Your ap
 | `:3000` | Dev server (`PORT`, pinned in the script) |
 | `:3101` | HMR websocket (hardcoded in the SDK) |
 
-The instance still provides **auth and data**. Login is always on: a request with no session bounces through the instance's real login page and returns you to your local page. That redirect is not an error.
+The instance still provides **auth and data**, under two distinct identities:
+
+- **User identity**: the real Glide login session in your browser. Login is always on: a request with no session bounces through the instance's real login page and returns you to your local page. That redirect is not an error. Server-side loaders forward this session, so the data you see matches the user you are logged in as.
+- **Service identity**: used only for *requirements* (system properties, plugin checks, user preferences) that the interactive user may not be allowed to read. Sourced from `GSC_DEV_AUTH` in the environment, falling back to the SDK's install session, falling back to the user session.
 
 ## The widget sandbox
 
@@ -52,15 +57,17 @@ Open one file in `dist-metadata/aiux-json/` after your first build. It is the fa
 
 ## Lint is the spec
 
-`eslint.config.mjs` is the conventions in enforceable form and the fastest specification in any SDK project. The five plugins:
+`eslint.config.mjs` is the conventions in enforceable form and the fastest specification in any SDK project. The five plugins are separate public packages:
 
-| Plugin | Enforces |
+| Package | Enforces |
 |---|---|
-| `ssr` | No browser globals in render, no DOM reads in render, no non-deterministic APIs, no side effects in render or constructor, no module-level browser access. **Errors** across `pages/**`. |
-| `style` | Tailwind in templates, `:host` only in `static styles`, `aiux-` prefixes, semantic colour tokens |
-| `i18n` | Every user-visible string through `i18n.getMessage()` |
-| `a11y` | Accessible markup in templates |
-| `app` | Project structure and AIUX-specific rules (base classes, decorators, imports) |
+| `@servicenow/eslint-plugin-aiux-ssr` | No browser globals in render, no DOM reads in render, no non-deterministic APIs, no side effects in render or constructor, no module-level browser access. **Errors** across `pages/**`. |
+| `@servicenow/eslint-plugin-aiux-style` | Tailwind in templates, `:host` only in `static styles`, `aiux-` prefixes, semantic colour tokens |
+| `@servicenow/eslint-plugin-aiux-i18n` | Every user-visible string through `i18n.getMessage()` |
+| `@servicenow/eslint-plugin-aiux-a11y` | Accessible markup in templates |
+| `@servicenow/eslint-plugin-aiux-app` | Project structure and AIUX-specific rules (base classes, decorators, imports) |
+
+The template also pulls in `@servicenow/agent-pack-aiux` and `@servicenow/agent-pack-horizon-design-knowledge`, and runs `scripts/setup-agent-skills.mjs` on `postinstall` to wire them into `.claude/`, `AGENTS.md`, and `GEMINI.md`. ServiceNow is shipping the framework with coding-agent skills in the box.
 
 Glide globals (`gs`, `GlideRecordSecure`, `GlideAggregate`, `$aiux`) are declared for `widgets/**/server-script.js` only. Using them anywhere else is a lint error.
 
