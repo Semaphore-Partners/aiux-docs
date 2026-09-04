@@ -10,6 +10,8 @@ For raw Lit (`html`, `css`, `repeat`, etc.) see the [Lit](lit.md) page. For the 
 
 Imports from `@servicenow/aiux-components-core`.
 
+> **Builder vs SDK import paths.** The bare package names on this page (`@servicenow/aiux-components-core`, `@servicenow/aiux-services`, …) are what the Builder editor and the OOB widgets use in the browser. In an SDK project the same modules are subpaths of one package: `@servicenow/aiux/aiux-components-core`. Same symbols, same behaviour. See [Building with the SDK](../sdk/overview.md#import-paths-the-one-that-will-bite-builder-users-first).
+
 | Symbol | Kind | Purpose |
 |---|---|---|
 | AIUXWidgetElement | class | Base for widget components — adds this.server.*, this.aiContext, this.deps, this.trackEvent, this.logger on top of LitElement. |

@@ -24,6 +24,11 @@ ServiceNow has not published architecture docs, an API reference, or a migration
   - [Service Portal bridge](docs/widgets/service-portal-bridge.md) — `<aiux-angular-element>` and the migration story
   - [AI integration](docs/widgets/ai-integration.md) — `best_for`, `client_tools`, `aiContext`, `$aiux.getWidget`
   - [Worked example: Impersonation widget](docs/widgets/example-impersonation.md) — a full native port with AI tools
+- **Building with the SDK**
+  - [Overview](docs/sdk/overview.md) — author / build / run time, your files as records, project layout, Builder vs SDK import paths
+  - [Widgets & decorators](docs/sdk/widgets-and-decorators.md) — `@name`, `@bestFor`, `@server`, `@discoverable` as columns; the four things that make a file a widget
+  - [Pages, loaders & SSR](docs/sdk/pages-loaders-and-ssr.md) — file routing, `static async loader(ctx)`, rendering in a Glide isolate, `isServer`, the app shell
+  - [Dev loop](docs/sdk/dev-loop.md) — `pnpm dev`, the widget sandbox, build output, the five eslint plugins, deploying
 - **Experiences**
   - [Overview](docs/experiences/overview.md) — `sys_aix_experience`, the `/aiux/<suffix>/<page>` URL pattern, the config endpoint, the `sp_portal` sidecar
   - [Pages & routing](docs/experiences/pages-and-routing.md) — `sys_aix_page`, path patterns, the 404 Breakout page

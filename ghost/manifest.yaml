@@ -75,6 +75,31 @@ pages:
     order: 70
     status: draft
 
+  - file: sdk/overview.md
+    slug: sdk-overview
+    title: Building with the SDK
+    section: Building with the SDK
+    order: 10
+    status: draft
+  - file: sdk/widgets-and-decorators.md
+    slug: sdk-widgets-and-decorators
+    title: Widgets & decorators
+    section: Building with the SDK
+    order: 20
+    status: draft
+  - file: sdk/pages-loaders-and-ssr.md
+    slug: sdk-pages-loaders-and-ssr
+    title: Pages, loaders & SSR
+    section: Building with the SDK
+    order: 30
+    status: draft
+  - file: sdk/dev-loop.md
+    slug: sdk-dev-loop
+    title: Dev loop
+    section: Building with the SDK
+    order: 40
+    status: draft
+
   - file: experiences/overview.md
     slug: experiences-overview   # already linked from published pages
     title: Experiences overview

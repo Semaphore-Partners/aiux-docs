@@ -27,6 +27,7 @@ The naming around AIUX, AIEX, and Slate has caused enough confusion already that
 
 - **[Getting Started](getting-started/installing.md)** — install the three store apps, build your first widget, port your first Service Portal widget across.
 - **[Widgets](widgets/component.md)** — authoring a single widget: Lit components, server scripts, DaisyUI styling, the Service Portal bridge, AI integration.
+- **[Building with the SDK](sdk/overview.md)** — the code-first path: a local repo that compiles into `sys_aix_*` records, with file-based routing, loaders, and server-side rendering.
 - **[Experiences](experiences/overview.md)** — the framework around widgets: URL routing, pages, app shells, themes, the migration story for legacy Service Portal URLs.
 - **[Reference](reference/tables.md)** — the 29 `sys_aix_*` tables and the complete intellisense dump from the Builder.
 
