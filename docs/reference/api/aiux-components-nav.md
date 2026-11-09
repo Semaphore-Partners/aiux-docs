@@ -1,10 +1,10 @@
 # `@servicenow/aiux-components-nav`
 
-> Generated from `public-api-manifest.json` in `@servicenow/aiux@22.42.3`. Do not edit by hand; see [tools/api-reference](../../../tools/api-reference/README.md). [Back to the index](README.md).
+> Generated from `public-api-manifest.json` in `@servicenow/aiux@22.67.1`. Do not edit by hand; see [tools/api-reference](../../../tools/api-reference/README.md). [Back to the index](README.md).
 
 **Import:** `@servicenow/aiux/aiux-components-nav`
 
-Declares 26 elements, 24 functions, 9 constants, 3 classes.
+Declares 29 elements, 24 functions, 9 constants, 3 classes.
 
 ## Elements
 
@@ -130,6 +130,38 @@ Class `SnNavFavoriteEditModal`.
 | `menuItems` | `Array<any>` | yes | no | yes |
 | `open` | `boolean` | yes | no | yes |
 | `prefill` | `null` | no | no | yes |
+
+### `<aiux-tab-group-modal>`
+
+Class `TabGroupModal`.
+
+| Event | `detail` |
+|---|---|
+| `tab-group-modal:close` | — |
+| `tab-group-modal:delete` | `{ groupId: any; }` |
+| `tab-group-modal:save` | `{ group: { name: string; color: string; }; mode: string; }` |
+
+### `<aiux-tab-group-overflow-menu>`
+
+Class `TabGroupOverflowMenu`.
+
+| Event | `detail` |
+|---|---|
+| `tab-group-overflow-menu:delete` | `detail:` |
+| `tab-group-overflow-menu:edit` | `detail:` |
+| `tab-group-overflow-menu:move` | `detail:` |
+| `tab-group-overflow-menu:move-into` | `detail:` |
+
+### `<aiux-tab-overflow-menu>`
+
+Class `TabOverflowMenu`.
+
+| Event | `detail` |
+|---|---|
+| `tab-overflow-menu:add-to-group` | `detail:` |
+| `tab-overflow-menu:close` | `detail:` |
+| `tab-overflow-menu:create-group` | `detail:` |
+| `tab-overflow-menu:remove-from-group` | `detail:` |
 
 ### `<aiux-ui16-frame>`
 
@@ -392,7 +424,6 @@ class NavLayout {
   _loadChatController(): Promise<void>;
   _notificationSettingsOutsideAnchors(): Array<any>;
   _notificationsPanel: any;
-  _notificationsSidebarCollapsed: boolean;
   _onboardingStep: null;
   _pendingBackButton: boolean;
   _resolveLoaderSelector(): string;
@@ -407,7 +438,7 @@ class NavLayout {
   onNavigateEnd(path: any, page: any, options: any): void;
   onNavigateStart(): void;
   render(): TemplateResult<1>;
-  renderAsideStart(hnavState: [object Object], enavState: [object Object]): TemplateResult<1>;
+  renderAsideStart(hnavState: [object Object]): TemplateResult<1>;
   renderGuidanceModal(): TemplateResult<1>;
   renderLayout(): TemplateResult<1>;
   renderPage(): any;
